@@ -1,0 +1,24 @@
+{   // Use the Typescript Playground to look at different configuration options!
+    "compilerOptions": {
+        "alwaysStrict": true,   // For Client Side - All transpiled js MUST be strict
+        "strict": true,         // For Client Side - Enforce Strict type checking!
+        "target": "ES2022",     // For Client Side - Target EcmaScript2022 (This is what we transpile to)
+        "module": "CommonJS",
+        "sourceMap": true,      // For Client Side - Allows for Typescript specific code-hinting within the browser!!!
+        "removeComments": true, // For Client Side - Remove all comments from transpiled JS files
+        "noImplicitAny": true,      // For Client Side - Do not allow implicit 'Any' types, give error instead
+        "noImplicitThis": true,     // For Client Side - Do not allow 
+        "noImplicitReturns": false, // For Client Side -
+        "noUnusedParameters": true, // For Client Side -
+        "noUnusedLocals": true,     // For Client Side -
+        "strictNullChecks": true,       // For Client Side -
+        "strictFunctionTypes": true,    // For Client Side -
+        "strictBindCallApply": true,    // For Client Side -
+        "strictPropertyInitialization": true,   // For Client Side -
+        "esModuleInterop": true,        // For Server Side -
+        "moduleResolution": "Node10",     // For Server Side -
+        "experimentalDecorators": true, // For Server Side -
+        "emitDecoratorMetadata": true   // For Server Side -
+    },
+    "exclude": ["node_modules"] // Do not transpile Node Modules... it's not our code
+}
