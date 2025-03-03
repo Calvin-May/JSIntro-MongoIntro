@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'Client')));
-//app.use(express.static(path.join(__dirname, 'node_modules')));
+app.use(express.static(path.join(__dirname, 'node_modules')));
 
 app.use('/', indexRouter);
 
@@ -31,13 +31,17 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err:createError.HttpError, req:express.Request, res:express.Response, next:express.NextFunction) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  // set locals, only providing error in development (Old way, look below for custom error handling)
+  //res.locals.message = err.message;
+  //res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  // Custom Error Handling without using res.locals
+  let message = err.message;
+  let error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render('error', { message: message, error: error } );
 });
 
 module.exports = app;
