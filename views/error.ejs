@@ -17,7 +17,14 @@
     
     <!-- Main Content -->
     <main id="mainContent" class="container">
-        <h1><%= error.statusCode %> - <%= message %></h1>
+        
+        <!-- Condition Error Page Handling -->
+        <% if (error.statusCode == "404") { %>
+            <%- include('./Content/404') %>
+            <% } else { %>
+                <h1><%= error.statusCode %> - <%= message %></h1>
+                <% } %>
+            
     </main>
       
       <!-- Footer -->
