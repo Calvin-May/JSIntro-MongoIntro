@@ -14,10 +14,6 @@
    */
   function Start(): void {
 
-    LoadHeader();
-    LoadLink('home');
-    LoadFooter();
-
     /* Routing Method used before converting to SPA
     switch (document.title) {
       case 'Home':
@@ -50,6 +46,34 @@
       default:
         break;
     } */
+
+    //LoadHeader();     - Depreciated, routing is now handled on the backend
+    //LoadLink('home'); - Depreciated, routing is now handled on the backend
+    //LoadFooter();     - Depreciated, routing is now handled on the backend
+
+    // New Start Function using Backend Routing
+
+    let pageID = $('body').attr('id');
+
+    switch (pageID) {
+      case 'contact':
+        displayContactUsPage();
+        break;
+      case 'contact-list':
+        displayContactListPage();
+        break;
+      case 'edit':
+        displayEditPage();
+        break;
+      case 'login':
+        displayLoginPage();
+        break;
+      case 'register':
+        displayRegisterPage();
+        break;
+      default:
+        break;
+    }
 
   }
 
@@ -105,6 +129,10 @@
   }
 }
 
+/* Depreciated, Routing handled on backend
+
+// Each of these functions was used when routing was handled on the front end and is no longer needed.
+
 function LoadLink(link: string, data: string = ""): void {
 
   router.ActiveLink = link;
@@ -123,6 +151,7 @@ function LoadLink(link: string, data: string = ""): void {
   $(`a.nav-link[data|='${pageName}']`).addClass('active');
   LoadContent();
 }
+
 
 function addNavigationEvents(): void {
 
@@ -175,7 +204,7 @@ function AddLinkEvents(link: string): void {
    * Creates the header for each page
    * 
    * @returns {void}
-   */
+   /
   function LoadHeader(): void {
 
     // Use Ajax to load header content
@@ -186,10 +215,11 @@ function AddLinkEvents(link: string): void {
       CheckLogin();
     });
   }
+ 
 
   /**
    * Loads Page content into Template
-   */
+   /
   function LoadContent() {
     let pageName = router.ActiveLink;
     console.log(pageName)
@@ -200,10 +230,11 @@ function AddLinkEvents(link: string): void {
       callback();
     });
   }
+  
 
   /**
    * @returns {void}
-   */
+   /
   function LoadFooter(): void {
     // Use Ajax to load header content
     $.get('./Views/Component/footer.html', function(htmlData) {
@@ -216,7 +247,7 @@ function AddLinkEvents(link: string): void {
    * 
    * @param {string} activeLink 
    * @returns {function}
-   */
+   /
   function ActiveLinkCallback(): Function {
     switch (router.ActiveLink) {
       case 'home': return displayHomePage;
@@ -239,7 +270,10 @@ function AddLinkEvents(link: string): void {
 
   }
 
-  // Display Page Functions
+*/
+ 
+
+// Display Page Functions
   function displayHomePage(): void {
     console.info('Loaded Home Page');
 /*  Click event in Multiple ways using JavaScript
@@ -264,7 +298,8 @@ function AddLinkEvents(link: string): void {
  */  
 
     $('#aboutUsButton').on('click', () => {
-      LoadLink('about');
+     //LoadLink('about'); - Depreciated, routing is now handled on the backend
+     location.href = '/about';
     });
   }
 
@@ -286,7 +321,8 @@ function AddLinkEvents(link: string): void {
 
     $("a[data='contact-list']").off('click');
     $("a[data='contact-list']").on('click', function() {
-      LoadLink('contact-list');
+      //LoadLink('contact-list'); - Depreciated, routing is now handled on the backend
+     location.href = '/contact-list';
     });
 
     validateContactForm();
@@ -302,7 +338,8 @@ function AddLinkEvents(link: string): void {
         let emailAddress = document.forms[0].emailAddress.value;
         addContact(fullName, contactNumber, emailAddress);
       }
-      LoadLink('contact-list');
+      //LoadLink('contact-list'); - Depreciated, routing is now handled on the backend
+     location.href = '/contact-list';
     });
 
   }
@@ -357,11 +394,13 @@ function AddLinkEvents(link: string): void {
     }
 
     $('#addContact').on('click', function(){
-      LoadLink('edit', 'add');
+      //LoadLink('edit', 'add'); Depreciated, routing is now handled on the backend
+     location.href = '/edit';
     });
 
     $('a.edit').on('click', function(){
-      LoadLink('edit', $(this).attr('id') as string);
+      //LoadLink('edit', $(this).attr('id') as string); -Depreciated, routing is now handled on the backend
+     location.href = '/edit?' + $(this).attr('id') as string;
     });
 
 
@@ -386,12 +425,14 @@ function AddLinkEvents(link: string): void {
             let contactNumber = document.forms[0].contactNumber.value;
             let emailAddress = document.forms[0].emailAddress.value;
             addContact(fullName, contactNumber, emailAddress);
-            LoadLink('contact-list');
+            //LoadLink('contact-list'); - Depreciated, routing is now handled on the backend
+            location.href = '/contact-list';
           });
 
           $('#resetForm').on('click', (e) => {
             e.preventDefault();
-            LoadLink('contact-list');
+            //LoadLink('contact-list'); - Depreciated, routing is now handled on the backend
+            location.href = '/contact-list';
           });
 
         }
@@ -423,12 +464,14 @@ function AddLinkEvents(link: string): void {
             localStorage.setItem(page, contact.serialize() as string);
 
             //Return to the Contact List
-            LoadLink('contact-list');
+            //LoadLink('contact-list'); - Depreciated, routing is now handled on the backend
+            location.href = '/contact-list';
           });
 
           $('#resetForm').on('click', (e) => {
             e.preventDefault();
-            LoadLink('contact-list');
+            //LoadLink('contact-list'); - Depreciated, routing is now handled on the backend
+            location.href = '/contact-list';
           });
 
         }
@@ -486,7 +529,7 @@ function AddLinkEvents(link: string): void {
     let messageArea = $('#messageArea');
     messageArea.hide();
 
-    AddLinkEvents('register');
+    //AddLinkEvents('register'); - Depreciated, routing is now handled on the backend
 
     $('#loginButton').on('click', function(e) {
       e.preventDefault();
@@ -519,7 +562,8 @@ function AddLinkEvents(link: string): void {
           // Remove/Hide Error Messaging
           messageArea.removeAttr('class').show();
           // Redirect User to secure area of the site
-          LoadLink('contact-list');
+          //LoadLink('contact-list'); - Depreciated, routing is now handled on the backend
+            location.href = '/contact-list';
         }
         else
         { 
@@ -533,7 +577,8 @@ function AddLinkEvents(link: string): void {
       e.preventDefault();
       // Clear Login form
       document.forms[0].reset(); // Quickly Reset the first form found on the page
-      LoadLink('home');
+      //LoadLink('home'); - Depreciated, routing is now handled on the backend
+      location.href = '/home';
 
     });
   }
@@ -559,8 +604,9 @@ function AddLinkEvents(link: string): void {
             Login
           </a>`
         );
-        LoadHeader();
-        LoadLink('home');
+        //LoadHeader();  - Depreciated, routing is now handled on the backend
+        //LoadLink('home'); - Depreciated, routing is now handled on the backend
+        location.href = '/home';
       });
       
     }
@@ -568,7 +614,7 @@ function AddLinkEvents(link: string): void {
 
   function displayRegisterPage(): void {
     console.log('Register Page loaded');
-    AddLinkEvents('login');
+    //AddLinkEvents('login'); - Depreciated, routing is now handled on the backend
   }
 
   /**
