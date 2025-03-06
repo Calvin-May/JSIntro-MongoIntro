@@ -9,49 +9,13 @@
  */
 (function () {
 
+  let linkData: string;
+  let activeLink: string;
+
   /**
    * Application Entry point
    */
   function Start(): void {
-
-    /* Routing Method used before converting to SPA
-    switch (document.title) {
-      case 'Home':
-        displayHomePage();
-        break;
-      case 'About Us':
-        displayAboutUsPage();
-        break;
-      case 'Projects':
-        displayProjectsPage();
-        break;
-      case 'Services':
-        displayServicesPage();
-        break;
-      case 'Contact Us':
-        displayContactUsPage();
-        break;
-      case 'ContactList':
-        displayContactListPage();
-        break;
-      case 'Edit':
-        displayEditPage();
-        break;  
-      case 'Login':
-        displayLoginPage();
-        break;
-      case 'Register':
-        displayRegisterPage();
-          break; 
-      default:
-        break;
-    } */
-
-    //LoadHeader();     - Depreciated, routing is now handled on the backend
-    //LoadLink('home'); - Depreciated, routing is now handled on the backend
-    //LoadFooter();     - Depreciated, routing is now handled on the backend
-
-    // New Start Function using Backend Routing
 
     let pageID = $('body').attr('id');
 
@@ -71,207 +35,14 @@
       case 'register':
         displayRegisterPage();
         break;
+      case 'projects':
+        displayProjectsPage();
+        break;
       default:
         break;
     }
 
   }
-
-  /**
-   * This function uses Ajax to open a connection to the server and returns
-   * a data payload to the callback function.
-   * 
-   * @param {string} method 
-   * @param {string} url 
-   * @param {function} callback 
-   * @returns {void}
-   */
-
-  /** function AjaxRequest(method: string, url: string, callback: Function): void {...}
-  function AjaxRequest(method: string, url: string, callback: Function): void {
-    // Ajax Introduction
-    //-Instantiate XHR Object
-    let XHR: XMLHttpRequest = new XMLHttpRequest();
-    //-Add Event Listener for readystatechange
-    XHR.addEventListener('readystatechange', () => {
-      if (XHR.readyState === 4 && XHR.status === 200) {
-        if (typeof callback === 'function')
-          {
-            callback(XHR.responseText);
-          }
-          else
-          {
-            console.log('ERROR: Callback is not a function');
-          }
-      }
-    });
-
-    //-Open a connection to the Server
-    XHR.open(method, url);
-
-    //-Send the Request to the server
-    XHR.send();
-  }
-  **/
-
-  
-  function AuthGuard(): void {
-    // Adding Protected Routes, not extensible - time saving
-    const protectedRoutes: string[] = [
-      "contact-list",
-      "edit"
-    ];
-
-    // Check for a protected route, if found, check session storage for logged in user; redirect as required
-    if (protectedRoutes.indexOf(router.ActiveLink) > -1) {
-        if (!sessionStorage.getItem('user'))
-            router.ActiveLink = "login"
-  }
-}
-
-/* Depreciated, Routing handled on backend
-
-// Each of these functions was used when routing was handled on the front end and is no longer needed.
-
-function LoadLink(link: string, data: string = ""): void {
-
-  router.ActiveLink = link;
-  let pageName = router.ActiveLink;
-
-  AuthGuard();
-
-  router.LinkData = data;
-
-  history.pushState({}, "", router.ActiveLink);
-
-  // Remove all Active Links
-  $('ul>li>a').each(function() {
-    $(this).removeClass('active');
-  });
-  $(`a.nav-link[data|='${pageName}']`).addClass('active');
-  LoadContent();
-}
-
-
-function addNavigationEvents(): void {
-
-  // Store Navigation Links
-  let navLinks = $('ul>li>a');
-
-  // Remove Navigation events
-  navLinks.off('click');
-  navLinks.off('mouseover');
-
-  // Add Navigation Events
-  navLinks.on('click', function() {
-    LoadLink($(this).attr('data') as string);
-  });
-
-  // Style Navigation Menu as clickable links
-  navLinks.on('mouseover', function() {
-    $(this).css('cursor', 'pointer');
-  });
-}
-
-function AddLinkEvents(link: string): void {
-  let linkQuery = $(`a.link[data=${link}]`);
-
-  // Remove Navigation events
-  linkQuery.off('click');
-  linkQuery.off('mouseover');
-  linkQuery.off('mouseout');
-
-  linkQuery.css('text-decoration', 'underline');
-  linkQuery.css('color', 'blue');
-
-  // Add Navigation Events
-  linkQuery.on('click', function() {
-    LoadLink(`${link}`);
-  });
-
-  // Style Navigation Menu as clickable links
-  linkQuery.on('mouseover', function() {
-    $(this).css('cursor', 'pointer');
-    $(this).css('font-weight', 'bold');
-  });
-
-  linkQuery.on('mouseover', function() {
-    $(this).css('font-weight', 'normal');
-  });
-}
-  
-  /**
-   * Creates the header for each page
-   * 
-   * @returns {void}
-   /
-  function LoadHeader(): void {
-
-    // Use Ajax to load header content
-    $.get('./Views/Component/header.html', function(htmlData) {
-      // Inject Header HTML
-      $('header').html(htmlData);
-      addNavigationEvents();
-      CheckLogin();
-    });
-  }
- 
-
-  /**
-   * Loads Page content into Template
-   /
-  function LoadContent() {
-    let pageName = router.ActiveLink;
-    console.log(pageName)
-    let callback = ActiveLinkCallback();
-    $.get(`./Views/Content/${pageName}.html`, function(htmlData) {
-      $('main').html(htmlData);
-      CheckLogin();
-      callback();
-    });
-  }
-  
-
-  /**
-   * @returns {void}
-   /
-  function LoadFooter(): void {
-    // Use Ajax to load header content
-    $.get('./Views/Component/footer.html', function(htmlData) {
-      // Inject Header HTML
-      $('footer').html(htmlData);
-    });
-  }
-
-  /**
-   * 
-   * @param {string} activeLink 
-   * @returns {function}
-   /
-  function ActiveLinkCallback(): Function {
-    switch (router.ActiveLink) {
-      case 'home': return displayHomePage;
-      case 'about': return displayAboutUsPage;
-      case 'projects': return displayProjectsPage;
-      case 'services': return displayServicesPage;
-      case 'contact': return displayContactUsPage;
-      case 'contact-list': return displayContactListPage;
-      case 'edit': return displayEditPage;
-      case 'login': return displayLoginPage;
-      case 'register': return displayRegisterPage;
-      case '404' : display404Page;
-      default:
-        console.error('Error: Callback does not exist: ' + router.ActiveLink);
-        return new Function();
-    }
-  }
-
-  function display404Page() {
-
-  }
-
-*/
- 
 
 // Display Page Functions
   function displayHomePage(): void {
@@ -399,8 +170,9 @@ function AddLinkEvents(link: string): void {
     });
 
     $('a.edit').on('click', function(){
+      linkData = $(this).attr('id') as string;
       //LoadLink('edit', $(this).attr('id') as string); -Depreciated, routing is now handled on the backend
-     location.href = '/edit?' + $(this).attr('id') as string;
+     location.href = '/edit?' + linkData;
     });
 
 
@@ -411,7 +183,7 @@ function AddLinkEvents(link: string): void {
     console.log('Loaded Edit Page');
 
     // Retrieve Key from URL
-    let page = router.LinkData;
+    let page = linkData;
     console.log(page);
     switch(page) 
     {
@@ -463,6 +235,8 @@ function AddLinkEvents(link: string): void {
             // Replace Item in Local Storage
             localStorage.setItem(page, contact.serialize() as string);
 
+            //Reset Link Data variable
+            linkData = "";
             //Return to the Contact List
             //LoadLink('contact-list'); - Depreciated, routing is now handled on the backend
             location.href = '/contact-list';
@@ -477,11 +251,6 @@ function AddLinkEvents(link: string): void {
         }
         break;
     }
-
-    // Retrieve Contact from Local Storage
-
-    // Fill in fields
-
 
 
   }

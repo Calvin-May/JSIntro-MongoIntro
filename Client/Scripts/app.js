@@ -1,5 +1,7 @@
 "use strict";
 (function () {
+    let linkData;
+    let activeLink;
     function Start() {
         let pageID = $('body').attr('id');
         switch (pageID) {
@@ -18,18 +20,11 @@
             case 'register':
                 displayRegisterPage();
                 break;
+            case 'projects':
+                displayProjectsPage();
+                break;
             default:
                 break;
-        }
-    }
-    function AuthGuard() {
-        const protectedRoutes = [
-            "contact-list",
-            "edit"
-        ];
-        if (protectedRoutes.indexOf(router.ActiveLink) > -1) {
-            if (!sessionStorage.getItem('user'))
-                router.ActiveLink = "login";
         }
     }
     function displayHomePage() {
@@ -109,12 +104,13 @@
             location.href = '/edit';
         });
         $('a.edit').on('click', function () {
-            location.href = '/edit?' + $(this).attr('id');
+            linkData = $(this).attr('id');
+            location.href = '/edit?' + linkData;
         });
     }
     function displayEditPage() {
         console.log('Loaded Edit Page');
-        let page = router.LinkData;
+        let page = linkData;
         console.log(page);
         switch (page) {
             case 'add':
@@ -148,6 +144,7 @@
                         contact.EmailAddress = $('#emailAddress').val();
                         contact.ContactNumber = $('#contactNumber').val();
                         localStorage.setItem(page, contact.serialize());
+                        linkData = "";
                         location.href = '/contact-list';
                     });
                     $('#resetForm').on('click', (e) => {
