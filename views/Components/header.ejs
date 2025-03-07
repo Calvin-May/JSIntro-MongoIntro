@@ -41,18 +41,41 @@ data-bs-theme="dark"
                 About Us
                 </a>
             </li>
-            <li id="navContact" class="nav-item px-1">
-                <a class="nav-link <%= (page === 'contact') ? 'active' : '' %>" href="/contact">
-                <i class="fas fa-mobile-alt"></i>
-                Contact Us
-                </a>
-            </li>
-            <li id="navLogin" class="nav-item px-1">
-                <a class="nav-link <%= (page === 'login') ? 'active' : '' %>" href="/login">
-                <i class="fas fa-sign-in-alt"></i>
-                Login
-                </a>
-            </li>
+
+            <% if (user != '') { %>
+                <li id="navContactList" class="nav-item px-1">
+                    <a class="nav-link <%= (page === 'contact-list') ? 'active' : '' %>" href="/contact-list">
+                    <i class="fas fa-mobile-alt"></i>
+                    Contact List
+                    </a>
+                </li>
+
+            <% } else { %>
+                <li id="navContact" class="nav-item px-1">
+                    <a class="nav-link <%= (page === 'contact') ? 'active' : '' %>" href="/contact">
+                    <i class="fas fa-users-alt"></i>
+                    Contact Us
+                    </a>
+                </li>
+
+            <% } %>
+            
+
+            <% if (user != '') { %>
+                <li id="navLogout" class="nav-item px-1">
+                    <a class="nav-link" href="/logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                    </a>
+                </li>
+            <% } else { %>
+                <li id="navLogin" class="nav-item px-1">
+                    <a class="nav-link <%= (page === 'login') ? 'active' : '' %>" href="/login">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Login
+                    </a>
+                </li>
+            <% } %>
             </ul>
         </div>
     </div>

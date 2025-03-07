@@ -23,8 +23,19 @@
             case 'projects':
                 displayProjectsPage();
                 break;
+            case 'logout':
+                performLogout();
             default:
                 break;
+        }
+    }
+    function performLogout() {
+        sessionStorage.removeItem('user');
+        location.href = '/login';
+    }
+    function AuthGuard() {
+        if (!sessionStorage.getItem("user")) {
+            location.href = '/login';
         }
     }
     function displayHomePage() {
@@ -63,6 +74,7 @@
         });
     }
     function displayContactListPage() {
+        AuthGuard();
         console.info('Loaded Contact List Page');
         if (localStorage.length > 0) {
             let data = "";
@@ -101,17 +113,20 @@
             });
         }
         $('#addContact').on('click', function () {
+            linkData = 'add';
             location.href = '/edit';
         });
         $('a.edit').on('click', function () {
-            linkData = $(this).attr('id');
-            location.href = '/edit?' + linkData;
+            location.href = '/edit/' + $(this).attr('id');
         });
     }
     function displayEditPage() {
         console.log('Loaded Edit Page');
+        let key = $('body')[0].dataset.contactid;
+        console.log(key);
         let page = linkData;
-        console.log(page);
+        console.log('Link Data Directly Below');
+        console.log(linkData);
         switch (page) {
             case 'add':
                 {
@@ -133,7 +148,7 @@
             default:
                 {
                     let contact = new core.Contact();
-                    contact.deserialize(localStorage.getItem(page));
+                    contact.deserialize(localStorage.getItem(key));
                     $('#fullName').val(contact.FullName);
                     $('#emailAddress').val(contact.EmailAddress);
                     $('#contactNumber').val(contact.ContactNumber);
@@ -143,7 +158,7 @@
                         contact.FullName = $('#fullName').val();
                         contact.EmailAddress = $('#emailAddress').val();
                         contact.ContactNumber = $('#contactNumber').val();
-                        localStorage.setItem(page, contact.serialize());
+                        localStorage.setItem(key, contact.serialize());
                         linkData = "";
                         location.href = '/contact-list';
                     });

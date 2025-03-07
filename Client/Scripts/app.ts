@@ -38,11 +38,27 @@
       case 'projects':
         displayProjectsPage();
         break;
+      case 'logout':
+        performLogout();  
       default:
         break;
     }
 
   }
+
+  function performLogout() {
+    sessionStorage.removeItem('user');
+    location.href = '/login';
+  }
+  
+  function AuthGuard(): void {
+    
+    // Check Session Storage for a User that is logged in
+    if(!sessionStorage.getItem("user")) {
+      // If the user is not logged in, redirect to the Login page
+      location.href = '/login';
+    }
+}
 
 // Display Page Functions
   function displayHomePage(): void {
@@ -116,6 +132,7 @@
   }
 
   function displayContactListPage(): void {
+    AuthGuard();
     console.info('Loaded Contact List Page');
     
     if (localStorage.length > 0) {
@@ -166,13 +183,13 @@
 
     $('#addContact').on('click', function(){
       //LoadLink('edit', 'add'); Depreciated, routing is now handled on the backend
+      linkData = 'add';
      location.href = '/edit';
     });
 
     $('a.edit').on('click', function(){
-      linkData = $(this).attr('id') as string;
       //LoadLink('edit', $(this).attr('id') as string); -Depreciated, routing is now handled on the backend
-     location.href = '/edit?' + linkData;
+     location.href = '/edit/' + $(this).attr('id') as string;
     });
 
 
@@ -182,9 +199,13 @@
   function displayEditPage(): void {
     console.log('Loaded Edit Page');
 
+    // Retrieve Contact Information from Body Tag
+    let key = $('body')[0].dataset.contactid;
+    console.log(key);
     // Retrieve Key from URL
     let page = linkData;
-    console.log(page);
+    console.log('Link Data Directly Below');
+    console.log(linkData);
     switch(page) 
     {
       case 'add':
@@ -213,7 +234,7 @@
         {
           // Get Contact Information from LocalStorage
           let contact = new core.Contact();
-          contact.deserialize(localStorage.getItem(page) as string);
+          contact.deserialize(localStorage.getItem(key) as string);
 
           // Display the Contact Information in the form
           $('#fullName').val(contact.FullName);
@@ -233,7 +254,7 @@
             contact.ContactNumber = $('#contactNumber').val() as string;
 
             // Replace Item in Local Storage
-            localStorage.setItem(page, contact.serialize() as string);
+            localStorage.setItem(key, contact.serialize() as string);
 
             //Reset Link Data variable
             linkData = "";
