@@ -4,9 +4,20 @@ import express = require('express');
 import path = require('path');
 import cookieParser = require('cookie-parser');
 import logger = require('morgan');
+import mongoose = require('mongoose');
 
 // Routing
 let indexRouter = require('./Routes/index');
+
+// DB Configuration
+let DBConfig = require('./Config/db');
+mongoose.connect(DBConfig.Path);
+
+const dbConnection = mongoose.connection;
+dbConnection.on('error', console.error.bind(console, 'Connection Error'));
+dbConnection.once('open', function() {
+  console.log(`Connected to MongoDB at: ${DBConfig.Path}`);
+});
 
 // Web App Instance
 let app = express();
