@@ -1,2 +1,2 @@
-﻿# JSIntro-ExpressGenerator
+﻿# JSIntro-MongoIntro
 

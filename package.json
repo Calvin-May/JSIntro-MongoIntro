@@ -1,7 +1,7 @@
 {
-  "name": "jsintro-expressgenerator",
+  "name": "jsintro-MongoIntro",
   "version": "0.0.0",
-  "description": "Intro to JS Project to showcase EJS and the Express Generator",
+  "description": "Intro to JS Project to showcase MongoDB",
   "main": "server.js",
   "author": "Calvin Man <calvinkylemay@gmail.com>",
   "license": "MIT",
