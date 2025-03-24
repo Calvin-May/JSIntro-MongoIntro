@@ -10,7 +10,7 @@ import mongoose = require('mongoose');
 let indexRouter = require('./Routes/index');
 
 // DB Configuration
-let DBConfig = require('./Config/db');
+import DBConfig = require('./Config/db');
 mongoose.connect(DBConfig.Path);
 
 const dbConnection = mongoose.connection;
@@ -20,7 +20,7 @@ dbConnection.once('open', function() {
 });
 
 // Web App Instance
-let app = express();
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'Views'));

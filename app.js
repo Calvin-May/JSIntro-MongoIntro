@@ -7,14 +7,14 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const mongoose = require("mongoose");
 let indexRouter = require('./Routes/index');
-let DBConfig = require('./Config/db');
+const DBConfig = require("./Config/db");
 mongoose.connect(DBConfig.Path);
 const dbConnection = mongoose.connection;
 dbConnection.on('error', console.error.bind(console, 'Connection Error'));
 dbConnection.once('open', function () {
     console.log(`Connected to MongoDB at: ${DBConfig.Path}`);
 });
-let app = express();
+const app = express();
 app.set('views', path.join(__dirname, 'Views'));
 app.set('view engine', 'ejs');
 app.use(logger('dev'));

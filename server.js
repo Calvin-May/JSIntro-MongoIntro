@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-let app = require('./app');
+const app = require('./app');
 const debug = require('debug')('jsintro-expressgenerator:server');
 const http = require("http");
 let port = normalizePort(process.env.PORT || '3000');

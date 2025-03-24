@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-let app = require('./app');
+const app = require('./app');
 import createError = require('http-errors');
 const debug = require('debug')('jsintro-expressgenerator:server');
 import http = require('http');
