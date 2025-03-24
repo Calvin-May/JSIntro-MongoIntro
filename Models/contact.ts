@@ -5,10 +5,9 @@ const { Schema } = mongoose; // Can also write like this: const Schema = mongoos
 // Create the Contact Schema
 const ContactSchema = new Schema(
     {// Schema Definition 
-    DisplayName: String,
+    FullName: String,
     EmailAddress: String,
-    Username: String,
-    Password: String
+    PhoneNumber: String,
     },
     {// Schema's can also have addition options 
         collection: "contacts" // Models using this Schema are placed into the contacts collection

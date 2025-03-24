@@ -4,10 +4,9 @@ exports.Model = void 0;
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const ContactSchema = new Schema({
-    DisplayName: String,
+    FullName: String,
     EmailAddress: String,
-    Username: String,
-    Password: String
+    PhoneNumber: String,
 }, {
     collection: "contacts"
 });
